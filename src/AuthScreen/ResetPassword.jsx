@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
+import {StyleSheet, Dimensions} from 'react-native';
 import {
+  Box,
   ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
   Image,
-  Dimensions,
-  TextInput,
-} from 'react-native';
-import OTPTextInput from 'react-native-otp-textinput';
+  Text,
+  Input,
+  Pressable,
+  Button,
+} from 'native-base';
 import BackIcon from 'react-native-vector-icons/Ionicons';
 
 const {height} = Dimensions.get('window');
@@ -22,43 +21,72 @@ const ResetPassword = ({navigation}) => {
   };
 
   const handleSubmit = () => {
-    // Implement your logic to verify OTP and reset password
     console.log('OTP entered:', otp);
-    // Example navigation after OTP verification (replace with your logic)
     navigation.navigate('Login');
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={require('../Assets/Images/reset-password-image.png')}
-          style={styles.background}
-        />
-      </View>
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Reset Password</Text>
-        <Text style={styles.subtitle}>
-          Create new password and enjoy our media
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="New Password"
-          placeholderTextColor="#666"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          placeholderTextColor="#666"
-          secureTextEntry
-        />
+    <ScrollView>
+      <Box>
+        <Box style={styles.imageContainer}>
+          <Pressable
+            style={styles.backIcon}
+            onPress={() => navigation.goBack()}>
+            <BackIcon name="arrow-back" size={24} color="white" />
+          </Pressable>
+          <Image
+            source={require('../Assets/Images/reset-password-image.png')}
+            resizeMode="cover"
+            height={height / 2}
+            width="100%"
+          />
+        </Box>
 
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
-      </View>
+        <Box
+          h={350}
+          p={5}
+          bg="#FFFFFF"
+          borderTopLeftRadius={20}
+          borderTopRightRadius={30}>
+          <Box mb={5}>
+            <Text fontSize={30} color="#FFBD33" fontWeight="600">
+              Reset Password
+            </Text>
+            <Text fontSize={14} color="#FFBD33" fontWeight="300">
+              Create new password and enjoy our media
+            </Text>
+          </Box>
+          <Box>
+            <Input
+              borderRadius={10}
+              mb={3}
+              color="#000"
+              placeholder="New Password"
+              placeholderTextColor="#666"
+              secureTextEntry
+            />
+            <Input
+              borderRadius={10}
+              mb={5}
+              color="#000"
+              placeholder="Confirm Password"
+              placeholderTextColor="#666"
+              secureTextEntry
+            />
+          </Box>
+          <Button
+            mt={2}
+            onPress={handleSubmit}
+            bg="#FFBD33"
+            w="100%"
+            mb={2}
+            borderRadius={10}>
+            <Text fontSize={15} color="white" fontWeight="600">
+              Submit
+            </Text>
+          </Button>
+        </Box>
+      </Box>
     </ScrollView>
   );
 };
@@ -66,84 +94,16 @@ const ResetPassword = ({navigation}) => {
 export default ResetPassword;
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    flexDirection: 'column',
-  },
   imageContainer: {
     height: height / 2,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
   },
-  background: {
-    width: '100%',
-    height: '100%',
-  },
-  formContainer: {
-    height: height / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#FFBD33',
-    marginBottom: 10,
-    textAlign: 'center',
-    marginTop: 20,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#FFBD33',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    width: '100%',
-    height: 45,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 20,
-    paddingLeft: 15,
-    borderRadius: 25,
-    backgroundColor: '#fff',
-    color: '#000',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 2,
-  },
-  forgotPasswordText: {
-    color: '#000',
-    // marginBottom: 20,
-    // textAlign: 'right',
-    // width: '100%',
-  },
-  buttonContainer: {
-    width: '100%',
-    height: 45,
-    borderRadius: 25,
-    backgroundColor: '#FFBD33',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  signUpText: {
-    color: '#000',
-    marginTop: 10,
+  backIcon: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    zIndex: 1,
   },
 });

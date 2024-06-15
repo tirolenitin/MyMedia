@@ -1,137 +1,101 @@
 import React from 'react';
+import {StyleSheet, Dimensions} from 'react-native';
 import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
+  Box,
   ScrollView,
   Image,
-  Dimensions,
-} from 'react-native';
+  Text,
+  Input,
+  Pressable,
+  Button,
+} from 'native-base';
 
 const {height} = Dimensions.get('window');
 
 const Login = ({navigation}) => {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={require('../Assets/Images/login-image.png')}
-          style={styles.background}
-        />
-      </View>
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Login</Text>
-        <Text style={styles.subtitle}>Welcome! Please log in to continue.</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#666"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#666"
-          secureTextEntry
-        />
-        <TouchableOpacity onPress={() => navigation.navigate('ForgetPassword')}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </TouchableOpacity>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity>
-            <Text style={styles.buttonText}>Sign In</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.signUpText}>Don't have an account? Sign Up</Text>
-        </TouchableOpacity>
-      </View>
+    <ScrollView>
+      <Box>
+        <Box style={styles.imageContainer}>
+          <Image
+            source={require('../Assets/Images/login-image.png')}
+            resizeMode="cover"
+            height={height / 2}
+            width="100%"
+          />
+        </Box>
+
+        <Box
+          p={5}
+          bg="#FFFFFF"
+          borderTopLeftRadius={20}
+          borderTopRightRadius={30}>
+          <Box mb={5}>
+            <Text fontSize={30} color="#FFBD33" fontWeight="600">
+              Login
+            </Text>
+            <Text fontSize={14} color="#FFBD33" fontWeight="200">
+              Welcome! Please log in to continue.
+            </Text>
+          </Box>
+          <Box>
+            <Input
+              borderRadius={10}
+              mb={3}
+              color="#000"
+              placeholder="Email"
+              placeholderTextColor="#666"
+              secureTextEntry
+            />
+            <Input
+              borderRadius={10}
+              mb={1}
+              color="#000"
+              placeholder="Password"
+              placeholderTextColor="#666"
+              secureTextEntry
+            />
+            <Pressable
+              onPress={() => navigation.navigate('ForgetPassword')}
+              alignItems="flex-end"
+              mb={3}>
+              <Text>Forgot Password?</Text>
+            </Pressable>
+          </Box>
+          <Button
+            onPress={() => navigation.navigate('HomeTab')}
+            bg="#FFBD33"
+            w="100%"
+            mb={2}
+            borderRadius={10}>
+            <Text fontSize={15} color="white" fontWeight="600">
+              Sign In
+            </Text>
+          </Button>
+          <Box
+            flexDirection="row"
+            alignItems="center"
+            justifyContent={'center'}
+            mb={2}>
+            <Text>Don't have an account? </Text>
+            <Pressable onPress={() => navigation.navigate('SignUp')}>
+              <Text color="#FFBD33" fontWeight="600">
+                Sign Up
+              </Text>
+            </Pressable>
+          </Box>
+        </Box>
+      </Box>
     </ScrollView>
   );
 };
 
-export default Login;
-
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    flexDirection: 'column',
-  },
   imageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
     height: height / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  background: {
-    width: '100%',
-    height: '100%',
-  },
-  formContainer: {
-    height: height / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#FFBD33',
-    marginBottom: 10,
-    textAlign: 'center',
-    marginTop: 20,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#FFBD33',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    width: '100%',
-    height: 45,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 20,
-    paddingLeft: 15,
-    borderRadius: 25,
-    backgroundColor: '#fff',
-    color: '#000',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 2,
-  },
-  forgotPasswordText: {
-    color: '#000',
-    // marginBottom: 20,
-    // textAlign: 'right',
-    // width: '100%',
-  },
-  buttonContainer: {
-    width: '100%',
-    height: 45,
-    borderRadius: 25,
-    backgroundColor: '#FFBD33',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  signUpText: {
-    color: '#000',
-    marginTop: 10,
   },
 });
+
+export default Login;

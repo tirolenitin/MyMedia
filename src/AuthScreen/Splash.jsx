@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {StyleSheet, Text, View, Animated} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient'; // or 'expo-linear-gradient' if using Expo
-
+import LinearGradient from 'react-native-linear-gradient';
 const Splash = ({navigation}) => {
   const text = 'MEDIA STORAGE';
   const animatedValues = useRef(
@@ -21,7 +20,7 @@ const Splash = ({navigation}) => {
     Animated.stagger(100, animations).start(() => {
       // Navigate to Login screen after all animations are complete
       setTimeout(() => {
-        navigation.navigate('HomeTab');
+        navigation.navigate('Login');
       }, 1000);
     });
   }, [animatedValues, navigation]);
