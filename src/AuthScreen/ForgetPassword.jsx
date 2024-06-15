@@ -1,87 +1,79 @@
 import React from 'react';
 import {
+  ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
+  TextInput,
   TouchableOpacity,
-  ScrollView,
   Image,
   Dimensions,
 } from 'react-native';
+import BackIcon from 'react-native-vector-icons/Ionicons';
 
 const {height} = Dimensions.get('window');
 
-const Register = ({navigation}) => {
+const ForgetPassword = ({navigation}) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={{padding: 20}}>
-        <Text style={styles.title}>Sign Up</Text>
-        <Text style={styles.subtitle}>
-          Welcome! Please sign up to continue.
-        </Text>
+      <View style={styles.imageContainer}>
+        {/* Add icon TouchableOpacity */}
+        <TouchableOpacity
+          style={styles.backIcon}
+          onPress={() => navigation.goBack()}>
+          <BackIcon name="arrow-back" color="black" />
+        </TouchableOpacity>
+        <Image
+          source={require('../Assets/Images/forget-password-image.png')}
+          style={styles.background}
+        />
       </View>
       <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          placeholderTextColor="#666"
-        />
+        <Text style={styles.title}>Forgot Password</Text>
+        <Text style={styles.subtitle}>
+          Please enter your email to reset your password.
+        </Text>
         <TextInput
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#666"
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Phone"
-          placeholderTextColor="#666"
-          keyboardType="phone-pad"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#666"
-          secureTextEntry
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          placeholderTextColor="#666"
-          secureTextEntry
         />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              /* Add sign-up functionality here */
-            }}>
-            <Text style={styles.buttonText}>Sign Up</Text>
+          <TouchableOpacity>
+            <Text style={styles.buttonText}>Reset Password</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('Login')}
           style={{marginTop: 10}}>
-          <Text style={styles.signUpText}>Already have an account? Login</Text>
+          <Text style={styles.backToLoginText}>Back to Login</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 };
 
-export default Register;
+export default ForgetPassword;
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    height: height / 1,
     flexDirection: 'column',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   imageContainer: {
     height: height / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'relative', // Ensure the icon position is relative to this container
+  },
+  backIcon: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    zIndex: 1, // Ensure the icon is above the background image
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    tintColor: '#FFF', // Adjust icon color if necessary
   },
   background: {
     width: '100%',
@@ -89,19 +81,28 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   formContainer: {
+    marginTop: 10,
+    height: height / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   title: {
     fontSize: 40,
     fontWeight: 'bold',
     color: '#FFBD33',
     marginBottom: 10,
+    textAlign: 'center',
     marginTop: 20,
   },
   subtitle: {
     fontSize: 16,
     color: '#FFBD33',
     marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
     width: '100%',
@@ -120,7 +121,6 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonContainer: {
-    marginTop: 20,
     width: '100%',
     height: 45,
     borderRadius: 25,
@@ -138,8 +138,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  signUpText: {
+  backToLoginText: {
     color: '#000',
     textAlign: 'center',
+    marginTop: 10,
   },
 });
