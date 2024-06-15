@@ -1,19 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Image,
   Dimensions,
 } from 'react-native';
+import OTPTextInput from 'react-native-otp-textinput';
 import BackIcon from 'react-native-vector-icons/Ionicons';
 
 const {height} = Dimensions.get('window');
 
-const ForgetPassword = ({navigation}) => {
+const OtpScreen = ({navigation}) => {
+  const [otp, setOtp] = useState('');
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.imageContainer}>
@@ -33,36 +35,42 @@ const ForgetPassword = ({navigation}) => {
           />
         </TouchableOpacity>
         <Image
-          source={require('../Assets/Images/forget-password-image.png')}
+          source={require('../Assets/Images/otp-image.png')}
           style={styles.background}
         />
       </View>
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Forgot Password</Text>
+        <Text style={styles.title}>OTP </Text>
         <Text style={styles.subtitle}>
-          Please enter your email to reset your password.
+          Please enter the 4-digit OTP sent to your email.
         </Text>
-        <TextInput
+        <OTPTextInput
           style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#666"
+          handleTextChange={otp => setOtp(otp)}
+          inputCount={4}
+          keyboardType="numeric"
+          secureTextEntry={false}
+          autoFocus={true}
+          tintColor="#FFBD33"
+          textInputStyle={{
+            backgroundColor: '#fff',
+            color: '#000',
+            borderRadius: 25,
+          }}
+          containerStyle={{marginBottom: 20}}
         />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('OtpScreen')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ResetPassword')}>
             <Text style={styles.buttonText}>Reset Password</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Login')}
-          style={{marginTop: 10}}>
-          <Text style={styles.backToLoginText}>Back to Login</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
 };
 
-export default ForgetPassword;
+export default OtpScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -77,12 +85,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     left: 20,
-    zIndex: 1, // Ensure the icon is above the background image
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    tintColor: '#FFF', // Adjust icon color if necessary
+    zIndex: 1,
   },
   background: {
     width: '100%',
@@ -114,12 +117,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   input: {
-    width: '100%',
+    padding: 10,
+    marginRight: 10,
     height: 45,
-    borderColor: '#ccc',
-    borderWidth: 1,
     marginBottom: 20,
-    paddingLeft: 15,
     borderRadius: 25,
     backgroundColor: '#fff',
     color: '#000',
@@ -128,6 +129,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 2,
+    paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: '#ccc',
   },
   buttonContainer: {
     width: '100%',

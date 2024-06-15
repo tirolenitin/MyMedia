@@ -1,68 +1,69 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Image,
   Dimensions,
+  TextInput,
 } from 'react-native';
+import OTPTextInput from 'react-native-otp-textinput';
 import BackIcon from 'react-native-vector-icons/Ionicons';
 
 const {height} = Dimensions.get('window');
 
-const ForgetPassword = ({navigation}) => {
+const ResetPassword = ({navigation}) => {
+  const [otp, setOtp] = useState('');
+
+  const handleOtpChange = otp => {
+    setOtp(otp);
+  };
+
+  const handleSubmit = () => {
+    // Implement your logic to verify OTP and reset password
+    console.log('OTP entered:', otp);
+    // Example navigation after OTP verification (replace with your logic)
+    navigation.navigate('Login');
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.imageContainer}>
-        {/* Add icon TouchableOpacity */}
-        <TouchableOpacity
-          style={styles.backIcon}
-          onPress={() => navigation.goBack()}>
-          <BackIcon
-            name="arrow-back"
-            color="black"
-            size={20}
-            style={{
-              borderRadius: 25,
-              borderWidth: 1,
-              padding: 4,
-            }}
-          />
-        </TouchableOpacity>
         <Image
-          source={require('../Assets/Images/forget-password-image.png')}
+          source={require('../Assets/Images/reset-password-image.png')}
           style={styles.background}
         />
       </View>
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Forgot Password</Text>
+        <Text style={styles.title}>Reset Password</Text>
         <Text style={styles.subtitle}>
-          Please enter your email to reset your password.
+          Create new password and enjoy our media
         </Text>
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="New Password"
           placeholderTextColor="#666"
         />
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('OtpScreen')}>
-            <Text style={styles.buttonText}>Reset Password</Text>
-          </TouchableOpacity>
-        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm Password"
+          placeholderTextColor="#666"
+          secureTextEntry
+        />
+
         <TouchableOpacity
-          onPress={() => navigation.navigate('Login')}
-          style={{marginTop: 10}}>
-          <Text style={styles.backToLoginText}>Back to Login</Text>
+          style={styles.buttonContainer}
+          onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 };
 
-export default ForgetPassword;
+export default ResetPassword;
 
 const styles = StyleSheet.create({
   container: {
@@ -71,26 +72,14 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     height: height / 2,
-    position: 'relative', // Ensure the icon position is relative to this container
-  },
-  backIcon: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    zIndex: 1, // Ensure the icon is above the background image
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    tintColor: '#FFF', // Adjust icon color if necessary
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   background: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
   },
   formContainer: {
-    marginTop: 10,
     height: height / 2,
     justifyContent: 'center',
     alignItems: 'center',
@@ -129,6 +118,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 2,
   },
+  forgotPasswordText: {
+    color: '#000',
+    // marginBottom: 20,
+    // textAlign: 'right',
+    // width: '100%',
+  },
   buttonContainer: {
     width: '100%',
     height: 45,
@@ -147,9 +142,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  backToLoginText: {
+  signUpText: {
     color: '#000',
-    textAlign: 'center',
     marginTop: 10,
   },
 });

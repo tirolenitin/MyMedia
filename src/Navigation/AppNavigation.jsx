@@ -11,6 +11,8 @@ import TakeSelfie from '../Screen/TakeSelfie';
 import Uploads from '../Screen/Uploads';
 import Profile from '../Screen/Profile';
 import ForgetPassword from '../AuthScreen/ForgetPassword';
+import OtpScreen from '../AuthScreen/OtpScreen';
+import ResetPassword from '../AuthScreen/ResetPassword';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,6 +29,8 @@ const AppNavigation = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+        <Stack.Screen name="OtpScreen" component={OtpScreen} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="HomeTab" component={BottomStackNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
