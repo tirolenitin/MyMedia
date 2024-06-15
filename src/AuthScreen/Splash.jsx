@@ -21,7 +21,7 @@ const Splash = ({navigation}) => {
     Animated.stagger(100, animations).start(() => {
       // Navigate to Login screen after all animations are complete
       setTimeout(() => {
-        navigation.replace('Login');
+        navigation.navigate('HomeTab');
       }, 1000);
     });
   }, [animatedValues, navigation]);
