@@ -25,7 +25,7 @@ const AppNavigation = () => {
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="SignUp" component={Register} />
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
         <Stack.Screen name="HomeTab" component={BottomStackNavigation} />
       </Stack.Navigator>
@@ -36,39 +36,48 @@ const AppNavigation = () => {
 export default AppNavigation;
 
 const BottomStackNavigation = ({navigation}) => {
-  <Tab.Navigator initialRouteName="Home">
-    <Tab.Screen
-      name="Home"
-      component={Home}
-      options={{
-        title: 'Home',
-        headerShown: false,
-      }}
-    />
-    <Tab.Screen
-      name="TakeSelfie"
-      component={TakeSelfie}
-      options={{
-        title: 'Selfie',
-        headerShown: false,
-      }}
-    />
+  return (
+    <Tab.Navigator initialRouteName="HomeStack"
+    screenOptions={{
+      tabBarStyle: {backgroundColor: 'black', borderColor: 'black', height: 70},
+      tabBarActiveTintColor: 'white',
+      tabBarInactiveTintColor: 'white',
+      tabBarLabelStyle: {marginBottom: 16, fontSize: 10},
+    }}
+    >
+      <Tab.Screen
+        name="HomeStack"
+        component={Home}
+        options={{
+          title: 'Home',
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="TakeSelfie"
+        component={TakeSelfie}
+        options={{
+          title: 'Selfie',
+          headerShown: false,
+        }}
+      />
 
-    <Tab.Screen
-      name="Uploads"
-      component={Uploads}
-      options={{
-        title: 'Uploads',
-        headerShown: false,
-      }}
-    />
-    <Tab.Screen
-      name="Profile"
-      component={Profile}
-      options={{
-        title: 'Menu',
-        headerShown: false,
-      }}
-    />
-  </Tab.Navigator>;
+      <Tab.Screen
+        name="Uploads"
+        component={Uploads}
+        options={{
+          title: 'Uploads',
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: 'Profile',
+          headerShown: false,
+        }}
+      />
+    </Tab.Navigator>
+  );
 };
