@@ -10,6 +10,7 @@ import {
   Button,
 } from 'native-base';
 import BackIcon from 'react-native-vector-icons/Ionicons';
+import OTPTextInput from 'react-native-otp-textinput';
 
 const {height} = Dimensions.get('window');
 
@@ -33,37 +34,46 @@ const ForgetPassword = ({navigation}) => {
             />
           </Pressable>
           <Image
-            source={require('../Assets/Images/forget-password-image.png')}
+            source={require('../Assets/Images/otp-image.png')}
             resizeMode="cover"
             height={height / 2}
             width="100%"
           />
         </Box>
         <Box
+          mt={2}
           p={5}
           bg="#FFFFFF"
           height={350}
           borderTopLeftRadius={20}
           borderTopRightRadius={30}>
-          <Box mb={5}>
+          <Box mb={5} mt={2}>
             <Text fontSize={30} color="#FFBD33" fontWeight="600">
-              Forgot Password
+              Verify OTP
             </Text>
             <Text fontSize={14} color="#FFBD33" fontWeight="300">
-              Please enter your email to reset your password.
+              Please enter the 4-digit OTP sent to your email.
             </Text>
           </Box>
-          <Box mb={5}>
-            <Input
-              borderRadius={10}
-              mb={3}
-              color="#000"
-              placeholder="Email"
-              placeholderTextColor="#666"
+          <Box mb={5} mt={5}>
+            <OTPTextInput
+              handleTextChange={otp => setOtp(otp)}
+              inputCount={4}
+              keyboardType="numeric"
+              secureTextEntry={false}
+              autoFocus={true}
+              tintColor="#FFBD33"
+              textInputStyle={{
+                backgroundColor: '#fff',
+                color: '#000',
+                borderRadius: 25,
+                borderWidth: 1,
+              }}
+              containerStyle={{marginBottom: 20}}
             />
           </Box>
           <Button
-            onPress={() => navigation.navigate('OtpScreen')}
+            onPress={() => navigation.navigate('ResetPassword')}
             bg="#FFBD33"
             w="100%"
             mb={2}

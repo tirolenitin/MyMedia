@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Dimensions} from 'react-native';
 import {
   Box,
@@ -9,16 +9,33 @@ import {
   Pressable,
   Button,
 } from 'native-base';
+import BackIcon from 'react-native-vector-icons/Ionicons';
 
 const {height} = Dimensions.get('window');
 
-const Login = ({navigation}) => {
+const ResetPassword = ({navigation}) => {
+  const [otp, setOtp] = useState('');
+
+  const handleOtpChange = otp => {
+    setOtp(otp);
+  };
+
+  const handleSubmit = () => {
+    console.log('OTP entered:', otp);
+    navigation.navigate('Login');
+  };
+
   return (
     <ScrollView>
       <Box>
         <Box style={styles.imageContainer}>
+          <Pressable
+            style={styles.backIcon}
+            onPress={() => navigation.goBack()}>
+            <BackIcon name="arrow-back" size={24} color="white" />
+          </Pressable>
           <Image
-            source={require('../Assets/Images/login-image.png')}
+            source={require('../Assets/Images/reset-password-image.png')}
             resizeMode="cover"
             height={height / 2}
             width="100%"
@@ -26,16 +43,17 @@ const Login = ({navigation}) => {
         </Box>
 
         <Box
+          h={350}
           p={5}
           bg="#FFFFFF"
           borderTopLeftRadius={20}
           borderTopRightRadius={30}>
           <Box mb={5}>
             <Text fontSize={30} color="#FFBD33" fontWeight="600">
-              Login
+              Reset Password
             </Text>
-            <Text fontSize={14} color="#FFBD33" fontWeight="200">
-              Welcome! Please log in to continue.
+            <Text fontSize={14} color="#FFBD33" fontWeight="300">
+              Create new password and enjoy our media
             </Text>
           </Box>
           <Box>
@@ -43,59 +61,49 @@ const Login = ({navigation}) => {
               borderRadius={10}
               mb={3}
               color="#000"
-              placeholder="Email"
+              placeholder="New Password"
               placeholderTextColor="#666"
               secureTextEntry
             />
             <Input
               borderRadius={10}
-              mb={1}
+              mb={5}
               color="#000"
-              placeholder="Password"
+              placeholder="Confirm Password"
               placeholderTextColor="#666"
               secureTextEntry
             />
-            <Pressable
-              onPress={() => navigation.navigate('ForgetPassword')}
-              alignItems="flex-end"
-              mb={3}>
-              <Text>Forgot Password?</Text>
-            </Pressable>
           </Box>
           <Button
-            onPress={() => navigation.navigate('HomeTab')}
+            mt={2}
+            onPress={handleSubmit}
             bg="#FFBD33"
             w="100%"
             mb={2}
             borderRadius={10}>
             <Text fontSize={15} color="white" fontWeight="600">
-              Sign In
+              Submit
             </Text>
           </Button>
-          <Box
-            flexDirection="row"
-            alignItems="center"
-            justifyContent={'center'}
-            mb={2}>
-            <Text>Don't have an account? </Text>
-            <Pressable onPress={() => navigation.navigate('SignUp')}>
-              <Text color="#FFBD33" fontWeight="600">
-                Sign Up
-              </Text>
-            </Pressable>
-          </Box>
         </Box>
       </Box>
     </ScrollView>
   );
 };
 
+export default ResetPassword;
+
 const styles = StyleSheet.create({
   imageContainer: {
+    height: height / 2,
     justifyContent: 'center',
     alignItems: 'center',
-    height: height / 2,
+    position: 'relative',
+  },
+  backIcon: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    zIndex: 1,
   },
 });
-
-export default Login;
