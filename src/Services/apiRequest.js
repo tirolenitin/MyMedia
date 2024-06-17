@@ -25,8 +25,8 @@ export const ApiRequest = async (method, endpoint, jsonData, token) => {
     };
 
     const response = await axios(config);
-    return response;
+    return response.data;
   } catch (error) {
-    return response.error;
+    return error.response.data;
   }
 };

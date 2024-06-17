@@ -42,7 +42,7 @@ const ForgetPassword = ({navigation}) => {
         <Box
           p={5}
           bg="#FFFFFF"
-          height={350}
+          height={500}
           borderTopLeftRadius={20}
           borderTopRightRadius={30}>
           <Box mb={5}>

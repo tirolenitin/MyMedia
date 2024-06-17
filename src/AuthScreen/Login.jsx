@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Dimensions} from 'react-native';
 import {
   Box,
@@ -9,12 +9,63 @@ import {
   Pressable,
   Button,
 } from 'native-base';
+import {loginUser, storeUserData} from '../Services/apiServices';
+import {ALERT_TYPE, Dialog} from 'react-native-alert-notification';
+import {validateFieldsLogin} from '../Components/Validations/Validations';
+import Loader from '../Loader/Loader';
 
 const {height} = Dimensions.get('window');
 
 const Login = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const handleLogin = async () => {
+    const validationErrors = validateFieldsLogin(email, password);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    setLoading(true);
+
+    try {
+      const response = await loginUser(email, password);
+
+      if (response.status === 200 && response.success) {
+        await storeUserData(response.data);
+        Dialog.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: 'Success',
+          textBody: response.message || 'User logged in successfully.',
+          button: 'Close',
+        });
+        navigation.navigate('Home');
+      } else {
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: 'Error',
+          textBody: response.message || 'Unknown error occurred.',
+          button: 'Close',
+        });
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Error',
+        textBody: 'An error occurred while logging in. Please try again.',
+        button: 'Close',
+      });
+      setLoading(false);
+    }
+  };
+
   return (
-    <ScrollView>
+    <ScrollView bg="#FFFFFF" h={'100%'}>
+      <Loader visible={loading} />
       <Box>
         <Box style={styles.imageContainer}>
           <Image
@@ -25,36 +76,46 @@ const Login = ({navigation}) => {
           />
         </Box>
 
-        <Box
-          p={5}
-          bg="#FFFFFF"
-          borderTopLeftRadius={20}
-          borderTopRightRadius={30}>
+        <Box p={5} borderTopLeftRadius={20} borderTopRightRadius={30}>
           <Box mb={5}>
             <Text fontSize={30} color="#FFBD33" fontWeight="600">
               Login
             </Text>
-            <Text fontSize={14} color="#FFBD33" fontWeight="200">
+            <Text fontSize={14} color="#FFBD33" fontWeight="300">
               Welcome! Please log in to continue.
             </Text>
           </Box>
           <Box>
-            <Input
-              borderRadius={10}
-              mb={3}
-              color="#000"
-              placeholder="Email"
-              placeholderTextColor="#666"
-              secureTextEntry
-            />
-            <Input
-              borderRadius={10}
-              mb={1}
-              color="#000"
-              placeholder="Password"
-              placeholderTextColor="#666"
-              secureTextEntry
-            />
+            <Box mb={3}>
+              {' '}
+              <Input
+                borderRadius={10}
+                color="#000"
+                placeholder="Email"
+                placeholderTextColor="#666"
+                value={email}
+                onChangeText={text => setEmail(text)}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+              {errors.email && (
+                <Text style={styles.errorText}>{errors.email}</Text>
+              )}
+            </Box>
+            <Box mb={1}>
+              <Input
+                borderRadius={10}
+                color="#000"
+                placeholder="Password"
+                placeholderTextColor="#666"
+                value={password}
+                onChangeText={text => setPassword(text)}
+                secureTextEntry
+              />
+              {errors.password && (
+                <Text style={styles.errorText}>{errors.password}</Text>
+              )}
+            </Box>
             <Pressable
               onPress={() => navigation.navigate('ForgetPassword')}
               alignItems="flex-end"
@@ -63,7 +124,7 @@ const Login = ({navigation}) => {
             </Pressable>
           </Box>
           <Button
-            onPress={() => navigation.navigate('HomeTab')}
+            onPress={handleLogin}
             bg="#FFBD33"
             w="100%"
             mb={2}
@@ -95,6 +156,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: height / 2,
+  },
+  errorText: {
+    fontSize: 12,
+    color: 'red',
+    marginBottom: 5,
   },
 });
 
