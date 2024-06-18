@@ -11,6 +11,9 @@ import TakeSelfie from '../Screen/TakeSelfie';
 import Uploads from '../Screen/Uploads';
 import Profile from '../Screen/Profile';
 import ForgetPassword from '../AuthScreen/ForgetPassword';
+import OtpScreen from '../AuthScreen/OtpScreen';
+import ResetPassword from '../AuthScreen/ResetPassword';
+import PhotoDetail from '../Screen/PhotoDetail';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,7 +30,12 @@ const AppNavigation = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={Register} />
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-        <Stack.Screen name="HomeTab" component={BottomStackNavigation} />
+        <Stack.Screen name="OtpScreen" component={OtpScreen} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="PhotoDetail" component={PhotoDetail} />
+
+        {/* <Stack.Screen name="HomeTab" component={BottomStackNavigation} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -35,49 +43,49 @@ const AppNavigation = () => {
 
 export default AppNavigation;
 
-const BottomStackNavigation = ({navigation}) => {
-  return (
-    <Tab.Navigator initialRouteName="HomeStack"
-    screenOptions={{
-      tabBarStyle: {backgroundColor: 'black', borderColor: 'black', height: 70},
-      tabBarActiveTintColor: 'white',
-      tabBarInactiveTintColor: 'white',
-      tabBarLabelStyle: {marginBottom: 16, fontSize: 10},
-    }}
-    >
-      <Tab.Screen
-        name="HomeStack"
-        component={Home}
-        options={{
-          title: 'Home',
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="TakeSelfie"
-        component={TakeSelfie}
-        options={{
-          title: 'Selfie',
-          headerShown: false,
-        }}
-      />
+// const BottomStackNavigation = ({navigation}) => {
+//   return (
+//     <Tab.Navigator initialRouteName="HomeStack"
+//     screenOptions={{
+//       tabBarStyle: {backgroundColor: 'black', borderColor: 'black', height: 70},
+//       tabBarActiveTintColor: 'white',
+//       tabBarInactiveTintColor: 'white',
+//       tabBarLabelStyle: {marginBottom: 16, fontSize: 10},
+//     }}
+//     >
+//       <Tab.Screen
+//         name="HomeStack"
+//         component={Home}
+//         options={{
+//           title: 'Home',
+//           headerShown: false,
+//         }}
+//       />
+//       <Tab.Screen
+//         name="TakeSelfie"
+//         component={TakeSelfie}
+//         options={{
+//           title: 'Selfie',
+//           headerShown: false,
+//         }}
+//       />
 
-      <Tab.Screen
-        name="Uploads"
-        component={Uploads}
-        options={{
-          title: 'Uploads',
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          title: 'Profile',
-          headerShown: false,
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
+//       <Tab.Screen
+//         name="Uploads"
+//         component={Uploads}
+//         options={{
+//           title: 'Uploads',
+//           headerShown: false,
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Profile"
+//         component={Profile}
+//         options={{
+//           title: 'Profile',
+//           headerShown: false,
+//         }}
+//       />
+//     </Tab.Navigator>
+//   );
+// };

@@ -1,54 +1,130 @@
-import React from 'react';
+import React, { useState } from 'react';
+import {StyleSheet, Dimensions, Alert} from 'react-native';
 import {
+  Box,
   ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
   Image,
-  Dimensions,
-} from 'react-native';
+  Text,
+  Input,
+  Pressable,
+  Button,
+} from 'native-base';
 import BackIcon from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
+import { api_base_url } from '../utils/Constant';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+
 
 const {height} = Dimensions.get('window');
 
 const ForgetPassword = ({navigation}) => {
+  const [email,setEmail] = useState('');
+  const [loading,setLoading] = useState(false);
+
+  console.log("email",email)
+
+  const forgetPassword = async () => {
+
+    if (!email) {
+      Alert.alert('Error', 'Please enter an email address.');
+      return;
+    }
+
+    setLoading(true);
+    const payload = { email };
+
+    try {
+      const response = await axios.put(`${api_base_url}/auth/user/forget-password`, payload);
+      console.log(response.data);
+      Dialog.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: 'Success',
+        textBody: response.data.message,
+        button: 'Close',
+      });
+      setTimeout(()=>{
+        navigation.navigate('OtpScreen',{userData:email});
+      },2000)
+    } catch (error) {
+      if (error.response) {
+        console.log('Error response data:', error.response.data);
+        console.log('Error response status:', error.response.status);
+        Alert.alert('Error', error.response.data.message || 'An error occurred.');
+      } else if (error.request) {
+        console.log('Error request:', error.request);
+        Alert.alert('Error', 'No response received. Please try again later.');
+      } else {
+        console.log('Error message:', error.message);
+        Alert.alert('Error', error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.imageContainer}>
-        {/* Add icon TouchableOpacity */}
-        <TouchableOpacity
-          style={styles.backIcon}
-          onPress={() => navigation.goBack()}>
-          <BackIcon name="arrow-back" color="black" />
-        </TouchableOpacity>
-        <Image
-          source={require('../Assets/Images/forget-password-image.png')}
-          style={styles.background}
-        />
-      </View>
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Forgot Password</Text>
-        <Text style={styles.subtitle}>
-          Please enter your email to reset your password.
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#666"
-        />
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity>
-            <Text style={styles.buttonText}>Reset Password</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Login')}
-          style={{marginTop: 10}}>
-          <Text style={styles.backToLoginText}>Back to Login</Text>
-        </TouchableOpacity>
-      </View>
+    <ScrollView>
+      <Box>
+        <Box style={styles.imageContainer}>
+          <Pressable
+            style={styles.backIcon}
+            onPress={() => navigation.goBack()}>
+            <BackIcon
+              name="arrow-back"
+              color="black"
+              size={20}
+              style={{
+                borderRadius: 25,
+                borderWidth: 1,
+                padding: 4,
+              }}
+            />
+          </Pressable>
+          <Image
+            source={require('../Assets/Images/forget-password-image.png')}
+            resizeMode="cover"
+            height={height / 2}
+            width="100%"
+            alt='Image'
+          />
+        </Box>
+        <Box
+          p={5}
+          bg="#FFFFFF"
+          height={500}
+          borderTopLeftRadius={20}
+          borderTopRightRadius={30}>
+          <Box mb={5}>
+            <Text fontSize={30} color="#FFBD33" fontWeight="600">
+              Forgot Password
+            </Text>
+            <Text fontSize={14} color="#FFBD33" fontWeight="300">
+              Please enter your email to reset your password.
+            </Text>
+          </Box>
+          <Box mb={5}>
+            <Input
+              borderRadius={10}
+              mb={3}
+              color="#000"
+              placeholder="Email"
+              placeholderTextColor="#666"
+              value={email}
+              onChangeText={setEmail}
+            />
+          </Box>
+          <Button
+            onPress={forgetPassword}
+            bg="#FFBD33"
+            w="100%"
+            mb={2}
+            borderRadius={10}>
+            <Text fontSize={15} color="white" fontWeight="600">
+              Forgot Password
+            </Text>
+          </Button>
+        </Box>
+      </Box>
     </ScrollView>
   );
 };
@@ -56,91 +132,16 @@ const ForgetPassword = ({navigation}) => {
 export default ForgetPassword;
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    flexDirection: 'column',
-  },
   imageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
     height: height / 2,
-    position: 'relative', // Ensure the icon position is relative to this container
+    position: 'relative',
   },
   backIcon: {
     position: 'absolute',
     top: 20,
     left: 20,
-    zIndex: 1, // Ensure the icon is above the background image
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    tintColor: '#FFF', // Adjust icon color if necessary
-  },
-  background: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-  },
-  formContainer: {
-    marginTop: 10,
-    height: height / 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#FFBD33',
-    marginBottom: 10,
-    textAlign: 'center',
-    marginTop: 20,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#FFBD33',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    width: '100%',
-    height: 45,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 20,
-    paddingLeft: 15,
-    borderRadius: 25,
-    backgroundColor: '#fff',
-    color: '#000',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 2,
-  },
-  buttonContainer: {
-    width: '100%',
-    height: 45,
-    borderRadius: 25,
-    backgroundColor: '#FFBD33',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  backToLoginText: {
-    color: '#000',
-    textAlign: 'center',
-    marginTop: 10,
+    zIndex: 1,
   },
 });
