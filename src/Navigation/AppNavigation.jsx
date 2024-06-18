@@ -14,6 +14,8 @@ import ForgetPassword from '../AuthScreen/ForgetPassword';
 import OtpScreen from '../AuthScreen/OtpScreen';
 import ResetPassword from '../AuthScreen/ResetPassword';
 import PhotoDetail from '../Screen/PhotoDetail';
+import {Camera} from 'react-native-vision-camera';
+import CameraOpen from '../Components/Home/Camera/CameraOpen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,6 +36,7 @@ const AppNavigation = () => {
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="PhotoDetail" component={PhotoDetail} />
+        <Stack.Screen name="CameraOpen" component={CameraOpen} />
 
         {/* <Stack.Screen name="HomeTab" component={BottomStackNavigation} /> */}
       </Stack.Navigator>

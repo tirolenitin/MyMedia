@@ -238,13 +238,13 @@ const Tab = createMaterialTopTabNavigator();
 
 const Home = () => {
   return (
-    <NavigationContainer>
+    
     <Tab.Navigator>
       <Tab.Screen name="Photos" component={Photos} />
       <Tab.Screen name="Videos" component={Videos} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
-    </NavigationContainer>
+    
   );
 };
 

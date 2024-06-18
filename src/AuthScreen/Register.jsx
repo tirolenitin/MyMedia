@@ -62,7 +62,7 @@ const Register = ({ navigation }) => {
           textBody: responseData.data.message,
           button: 'Close',
         });
-      navigation.navigate('OtpScreen',{userData:userData});
+        navigation.navigate('OtpScreen',{userData:userData});
       } else {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
