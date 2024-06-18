@@ -87,7 +87,6 @@ const Login = ({navigation}) => {
           </Box>
           <Box>
             <Box mb={3}>
-              {' '}
               <Input
                 borderRadius={10}
                 color="#000"

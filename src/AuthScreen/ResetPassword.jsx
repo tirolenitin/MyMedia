@@ -14,12 +14,6 @@ import BackIcon from 'react-native-vector-icons/Ionicons';
 const {height} = Dimensions.get('window');
 
 const ResetPassword = ({navigation}) => {
-  const [otp, setOtp] = useState('');
-
-  const handleOtpChange = otp => {
-    setOtp(otp);
-  };
-
   const handleSubmit = () => {
     console.log('OTP entered:', otp);
     navigation.navigate('Login');
