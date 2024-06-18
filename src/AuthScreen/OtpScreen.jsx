@@ -13,15 +13,23 @@ import {verifyUser} from '../Services/apiServices';
 
 const {height} = Dimensions.get('window');
 
-const OtpScreen = ({navigation}) => {
+const OtpScreen = ({navigation,route}) => {
+  const {userData} = route.params;
+  console.log("userData",userData);
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
-  const email = 'prachi0111@yopmail.com'; // Static email
+  const email = userData.email || userData; // Static email
 
   const handleVerifyOtp = async () => {
     setLoading(true);
     try {
-      const response = await verifyUser(email, otp);
+      const payload = {
+        email:email,
+        otp:otp
+      }
+
+      console.log(payload);
+      const response = await verifyUser(payload);
 
       console.log('response.status', response.status);
 
@@ -32,7 +40,10 @@ const OtpScreen = ({navigation}) => {
           textBody: response.message,
           button: 'Close',
         });
-        navigation.navigate('Login');
+        setTimeout(()=>{
+          navigation.navigate('Login');
+        },2000);
+       
       } else {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
@@ -79,6 +90,7 @@ const OtpScreen = ({navigation}) => {
               resizeMode="cover"
               height={height / 2}
               width="100%"
+              alt='Image'
             />
           </Box>
           <Box
