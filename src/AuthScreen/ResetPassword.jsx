@@ -39,6 +39,7 @@ const ResetPassword = ({navigation}) => {
             resizeMode="cover"
             height={height / 2}
             width="100%"
+            alt='Image'
           />
         </Box>
 

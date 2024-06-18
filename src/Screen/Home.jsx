@@ -228,6 +228,7 @@
 // */
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Photos from './Photos';
 import Videos from './Videos';
@@ -237,11 +238,13 @@ const Tab = createMaterialTopTabNavigator();
 
 const Home = () => {
   return (
+    <NavigationContainer>
     <Tab.Navigator>
       <Tab.Screen name="Photos" component={Photos} />
       <Tab.Screen name="Videos" component={Videos} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, Dimensions} from 'react-native';
+import React, { useState } from 'react';
+import {StyleSheet, Dimensions, Alert} from 'react-native';
 import {
   Box,
   ScrollView,
@@ -10,10 +10,58 @@ import {
   Button,
 } from 'native-base';
 import BackIcon from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
+import { api_base_url } from '../utils/Constant';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+
 
 const {height} = Dimensions.get('window');
 
 const ForgetPassword = ({navigation}) => {
+  const [email,setEmail] = useState('');
+  const [loading,setLoading] = useState(false);
+
+  console.log("email",email)
+
+  const forgetPassword = async () => {
+
+    if (!email) {
+      Alert.alert('Error', 'Please enter an email address.');
+      return;
+    }
+
+    setLoading(true);
+    const payload = { email };
+
+    try {
+      const response = await axios.put(`${api_base_url}/auth/user/forget-password`, payload);
+      console.log(response.data);
+      Dialog.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: 'Success',
+        textBody: response.data.message,
+        button: 'Close',
+      });
+      setTimeout(()=>{
+        navigation.navigate('OtpScreen',{userData:email});
+      },2000)
+    } catch (error) {
+      if (error.response) {
+        console.log('Error response data:', error.response.data);
+        console.log('Error response status:', error.response.status);
+        Alert.alert('Error', error.response.data.message || 'An error occurred.');
+      } else if (error.request) {
+        console.log('Error request:', error.request);
+        Alert.alert('Error', 'No response received. Please try again later.');
+      } else {
+        console.log('Error message:', error.message);
+        Alert.alert('Error', error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <ScrollView>
       <Box>
@@ -37,6 +85,7 @@ const ForgetPassword = ({navigation}) => {
             resizeMode="cover"
             height={height / 2}
             width="100%"
+            alt='Image'
           />
         </Box>
         <Box
@@ -60,10 +109,12 @@ const ForgetPassword = ({navigation}) => {
               color="#000"
               placeholder="Email"
               placeholderTextColor="#666"
+              value={email}
+              onChangeText={setEmail}
             />
           </Box>
           <Button
-            onPress={() => navigation.navigate('OtpScreen')}
+            onPress={forgetPassword}
             bg="#FFBD33"
             w="100%"
             mb={2}

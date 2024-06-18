@@ -3,11 +3,49 @@ import {api_base_url} from '../utils/Constant';
 import {ApiRequest} from './apiRequest';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const createUser = async userData => {
-  const endpoint = `${api_base_url}/auth/user/create-user`;
-  return await ApiRequest('POST', endpoint, userData);
-};
+export const userRegistration = async (payload) =>{
+  console.log("payload",payload);
+  try {
+    const response = await ApiRequest(
+      'POST',
+      `${api_base_url}/auth/user/create-user`,
+      payload
+    )
+  
+    // console.log("responsedata",response);
+    if(response && response.status === 201){
+      return response
+    }
+  } catch (error) {
+    console.log(error.massage);
+  }
+  
+}
 
+export const uploadProfile = async( formData) =>{
+  console.log("==============>",formData);
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    const response = await axios.post(`${api_base_url}/auth/user/upload-profile`, formData, config);
+    if( response &&response.data.status === 200 ){
+       console.log('Response received:', response.data);
+      return response.data;
+    }
+  } catch (error) {
+    if (error.response) {
+      console.log('Error response data:', error.response.data);
+      console.log('Error response status:', error.response.status);
+    } else if (error.request) {
+      console.log('Error request:', error.request);
+    } else {
+      console.log('Error message:', error.message);
+    }
+  }
+}
 // export const verifyUser = async (email, otp) => {
 //   try {
 //     const response = await axios.put(`${api_base_url}/auth/user/verify-user`, {
@@ -20,11 +58,14 @@ export const createUser = async userData => {
 //   }
 // };
 
-export const verifyUser = async (email, otp) => {
+export const verifyUser = async (payload) => {
+  console.log(payload);
   try {
-    const endpoint = `${api_base_url}/auth/user/verify-user`;
-    const response = await ApiRequest('PUT', endpoint, {email, otp});
-    return response;
+   const response = await axios.put(`${api_base_url}/auth/user/verify-user`,payload);
+   console.log("response hai",response.data);
+   if(response.data && response.data.status === 200){
+    return response.data;
+   }
   } catch (error) {
     throw error;
   }
